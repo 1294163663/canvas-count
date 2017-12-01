@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小球倒计时</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    html,body {
+        height: 100%;
+        text-align: center;
+    }
+    canvas {
+
+    }
+</style>
+<body>
+<canvas id="canvas">您的浏览器不支持canvas，请更换浏览器后再试</canvas>
+</body>
+<script>
+    const colors = ["#33B5E5","#0099CC","#AA66CC","#9933CC","#99CC00","#669900","#FFBB33","#FF8800","#FF4444","#CC0000","blue","yellow","gray","purple"]
+
+    var WINDOW_HEIGHT =document.body.clientHeight;
+    var WINDOW_WIDTH =document.body.clientWidth;
+    var WINDOW_LEFT = WINDOW_WIDTH/5;
+    var WINDOW_TOP = WINDOW_HEIGHT/5;
+    RADIUS = Math.round(WINDOW_WIDTH * 4 / 5 / 165)-1
+    var balls = [];
+    var n = true;
+
+    window.onload = function () {
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext('2d');
+
+        canvas.width = WINDOW_WIDTH
+        canvas.height = WINDOW_HEIGHT
+
+        render(context)
+        setInterval(function () {
+            render(context);
+            update();
+        },
+        50
+        )
+
+    }
+    function render(cxt) {
+        cxt.clearRect(0 , 0 , WINDOW_WIDTH , WINDOW_HEIGHT)
+        console.log(balls.length)
+
+        renderName(cxt, WINDOW_LEFT, WINDOW_TOP, 11);
+        renderName(cxt, WINDOW_LEFT + 37 * RADIUS, WINDOW_TOP, 12);
+        renderName(cxt, WINDOW_LEFT + 74 * RADIUS, WINDOW_TOP, 13);
+        renderName(cxt, WINDOW_LEFT + 37 * RADIUS, WINDOW_TOP+29*RADIUS, 15);
+        renderName(cxt, WINDOW_LEFT + 74 * RADIUS, WINDOW_TOP+29*RADIUS, 15);
+
+        if (n) {
+            addBalls(WINDOW_LEFT + 140*RADIUS , WINDOW_TOP , 14);
+            addBalls(WINDOW_LEFT + 140*RADIUS , WINDOW_TOP+56*RADIUS , 14);
+            balls[0].vx = -10-4;
+            balls[0].vy =  5+2;
+            balls[1].vx = -10-4;
+            balls[1].vy =  -5-2;
+            addBalls(WINDOW_LEFT, WINDOW_TOP, 11);
+            addBalls(WINDOW_LEFT + 37 * RADIUS, WINDOW_TOP, 12);
+            addBalls(WINDOW_LEFT + 74 * RADIUS, WINDOW_TOP, 13);
+            addBalls(WINDOW_LEFT, WINDOW_TOP+29*RADIUS , 16);
+            addBalls(WINDOW_LEFT + 37 * RADIUS, WINDOW_TOP+29*RADIUS, 15);
+            addBalls(WINDOW_LEFT + 74 * RADIUS, WINDOW_TOP+29*RADIUS, 15);
+            n=false;
+        }
+
+        for (var i = 0; i < balls.length; i++) {
+            cxt.fillStyle = balls[i].color;
+            cxt.beginPath()
+            cxt.arc(balls[i].x, balls[i].y, RADIUS, 0, 2 * Math.PI, true);
+            cxt.fill();
+        }
+    }
+    function renderName(cxt , x , y , num) {
+        for(var i=0 ; i<digit[num].length ; i++){
+            for(var j=0 ; j<digit[num][i].length ; j++){
+                if (digit[num][i][j]==1){
+                    cxt.beginPath();
+                    cxt.arc( x+(2*RADIUS+5)*j , y+(2*RADIUS+5)*i , RADIUS , 0 , 2*Math.PI )
+                    cxt.fillStyle = colors[Math.floor(parseInt(i*j%10))];
+                    cxt.fill();
+                }
+            }
+        }
+    }
+    function addBalls( x , y , num) {
+        for(var i=0 ; i<digit[num].length ; i++){
+            for(var j=0 ; j<digit[num][i].length ; j++){
+                if (digit[num][i][j]==0){
+                    var aBall = {
+                        x:  x+(2*RADIUS+5)*j,
+                        y:  y+(2*RADIUS+5)*i,
+                        vx:0,
+                        vy:0,
+                        color: colors[Math.floor(Math.random() * colors.length)]
+                    }
+                    balls.push(aBall)
+                }
+            }
+        }
+    }
+    function update () {
+        for(var i=0 ; i<balls.length ; i++){
+            balls[i].x += balls[i].vx;
+            balls[i].y += balls[i].vy;
+
+            for(var j=1 ; j<balls.length ; j++){
+                    if(i==j){
+                    }else {
+                        if
+                        ((balls[i].x-balls[j].x)*(balls[i].x-balls[j].x)+(balls[i].y-balls[j].y)*(balls[i].y-balls[j].y)<=4*RADIUS*RADIUS){
+                        if ((balls[i].vx)*(balls[i].vx)>(balls[j].vx)*(balls[j].vx)){
+                            balls[j].vx = balls[i].vx -1;
+                            balls[i].vx = -balls[i].vx ;
+                        }else {
+                            balls[i].vx = balls[j].vx -1;
+                            balls[j].vx = -balls[j].vx ;
+                        }
+                        if ((balls[i].vy)*(balls[i].vy)>(balls[j].vy)*(balls[j].vy)){
+                            balls[j].vy = balls[i].vy ;
+                            balls[i].vy = -balls[i].vy ;
+                        }else {
+                            balls[i].vy = balls[j].vy ;
+                            balls[j].vy = -balls[j].vy ;
+                        }
+                    }
+                }
+                }
+
+        }
+
+        var cnt = 0;
+        for( var i = 0 ; i < balls.length ; i ++ ) {
+            if (balls[i].x + RADIUS > 0 && balls[i].x - RADIUS < WINDOW_WIDTH)
+                balls[cnt++] = balls[i]
+        }
+        while( balls.length > cnt ){
+            balls.pop();
+        }
+    }
+
+</script>
+<script src="digit.js"></script>
+</html>
