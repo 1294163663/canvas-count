@@ -18,8 +18,7 @@ var n = true;
 
 
 
-const  endTime = new Date();
-endTime.setTime(endTime.getTime()+10000);
+const  endTime = new Date('2017/12/12 00:00:00');
 var residueSecond = 0;
 
 var ballsName = [];
@@ -70,7 +69,7 @@ function render( cxt ){
 
 
 
-    renderDigit( MARGIN_LEFT , MARGIN_TOP , parseInt(hours/10) , cxt )
+    renderDigit( MARGIN_LEFT , MARGIN_TOP , parseInt(hours/10)<=9?parseInt(hours/10):24 , cxt )
     renderDigit( MARGIN_LEFT + 15*(RADIUS+1) , MARGIN_TOP , parseInt(hours%10) , cxt )
     renderDigit( MARGIN_LEFT + 30*(RADIUS + 1) , MARGIN_TOP , 10 , cxt )
     renderDigit( MARGIN_LEFT + 39*(RADIUS+1) , MARGIN_TOP , parseInt(minutes/10) , cxt);
@@ -103,7 +102,7 @@ function update() {
 
     if( nextSeconds != curSeconds ){
         if( parseInt(curHours/10) != parseInt(nextHours/10) ){
-            addBalls( MARGIN_LEFT + 0 , MARGIN_TOP , parseInt(nextHours/10) );
+            addBalls( MARGIN_LEFT + 0 , MARGIN_TOP , parseInt(nextHours/10)<=9?parseInt(nextHours/10):24 );
         }
         if( parseInt(curHours%10) != parseInt(nextHours%10) ){
             addBalls( MARGIN_LEFT + 15*(RADIUS+1) , MARGIN_TOP , parseInt(nextHours/10) );
@@ -127,7 +126,6 @@ function update() {
     }
 
     updateBalls();
-    console.log(balls.length);
 }
 
 function addBalls(x , y , num) {
@@ -198,11 +196,11 @@ function render1(cxt) {
     cxt.clearRect(0 , 0 , WINDOW_WIDTH , WINDOW_HEIGHT)
     console.log(ballsName.length)
 
-    renderName(cxt, WINDOW_LEFT1, WINDOW_TOP1, 17);
-    renderName(cxt, WINDOW_LEFT1 + 28 * (RADIUS1+1), WINDOW_TOP1, 18);
-    renderName(cxt, WINDOW_LEFT1 + 56 * (RADIUS1+1), WINDOW_TOP1, 21);
-    renderName(cxt, WINDOW_LEFT1 + 28 * (RADIUS1+1), WINDOW_TOP1+22*(RADIUS1+1), 19);
-    renderName(cxt, WINDOW_LEFT1 + 56 * (RADIUS1+1), WINDOW_TOP1+22*(RADIUS1+1), 20);
+    renderName(cxt, WINDOW_LEFT1, WINDOW_TOP1, 19);
+    renderName(cxt, WINDOW_LEFT1 + 28 * (RADIUS1+1), WINDOW_TOP1, 20);
+    renderName(cxt, WINDOW_LEFT1 + 56 * (RADIUS1+1), WINDOW_TOP1, 23);
+    renderName(cxt, WINDOW_LEFT1 + 28 * (RADIUS1+1), WINDOW_TOP1+22*(RADIUS1+1), 21);
+    renderName(cxt, WINDOW_LEFT1 + 56 * (RADIUS1+1), WINDOW_TOP1+22*(RADIUS1+1), 22);
 
     if (n) {
         addBallsName(WINDOW_LEFT1 + 100*(RADIUS1+1) , WINDOW_TOP1 , 14);
@@ -211,12 +209,12 @@ function render1(cxt) {
         ballsName[0].vy =  5+2;
         ballsName[1].vx = -10-4;
         ballsName[1].vy =  -5-2;
-        addBallsName(WINDOW_LEFT1, WINDOW_TOP1, 17);
-        addBallsName(WINDOW_LEFT1 + 28 * (RADIUS1+1), WINDOW_TOP1, 18);
-        addBallsName(WINDOW_LEFT1 + 56 * (RADIUS1+1), WINDOW_TOP1, 21);
+        addBallsName(WINDOW_LEFT1, WINDOW_TOP1, 19);
+        addBallsName(WINDOW_LEFT1 + 28 * (RADIUS1+1), WINDOW_TOP1, 22);
+        addBallsName(WINDOW_LEFT1 + 56 * (RADIUS1+1), WINDOW_TOP1, 23);
         addBallsName(WINDOW_LEFT1, WINDOW_TOP1+22*(RADIUS1+1) , 16);
-        addBallsName(WINDOW_LEFT1 + 28 * (RADIUS1+1), WINDOW_TOP1+22*(RADIUS1+1), 19);
-        addBallsName(WINDOW_LEFT1 + 56 * (RADIUS1+1), WINDOW_TOP1+22*(RADIUS1+1), 20);
+        addBallsName(WINDOW_LEFT1 + 28 * (RADIUS1+1), WINDOW_TOP1+22*(RADIUS1+1), 21);
+        addBallsName(WINDOW_LEFT1 + 56 * (RADIUS1+1), WINDOW_TOP1+22*(RADIUS1+1), 22);
         n=false;
     }
 
