@@ -17,8 +17,9 @@ RADIUS1 = Math.round(WINDOW_WIDTH * 5 / 5 / 165)-1
 var n = true;
 
 
+const  endTime = new Date();
+endTime.setTime(endTime.getTime()+10000);
 
-const  endTime = new Date('2017/12/12 00:00:00');
 var residueSecond = 0;
 
 var ballsName = [];
